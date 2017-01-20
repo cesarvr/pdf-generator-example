@@ -9,6 +9,9 @@
     "installed_plugins": {
         "com.html2pdf.generator": {
             "PACKAGE_NAME": "com.pdf.test"
+        },
+        "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "com.pdf.test"
         }
     },
     "dependent_plugins": {}
