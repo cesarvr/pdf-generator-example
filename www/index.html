@@ -1,4 +1,6 @@
-<!DOCTYPE html>
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.1//EN"
+    "http://www.w3.org/TR/xhtml-basic/xhtml-basic11.dtd">
 <!--
     Licensed to the Apache Software Foundation (ASF) under one
     or more contributor license agreements.  See the NOTICE file
@@ -22,7 +24,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="">
@@ -45,32 +47,32 @@
     <![endif]-->
 
 <style>
-    
+
 .full{
-    position: absolute; 
-    top: 0; 
+    position: absolute;
+    top: 0;
     left: 0;
-    width: 100%; 
-    height: 100%;   
+    width: 100%;
+    height: 100%;
     z-index: 10;
     overflow-y: scroll;
     overflow-x: scroll;
     background-color: white;
  }
- 
-.show { 
+
+.show {
     opacity: 1.0;
 }
 
-.hide { 
-    position: absolute; 
-    top: 0; 
+.hide {
+    position: absolute;
+    top: 0;
     left: 0;
-    width: 100%; 
-    height: 100%;   
+    width: 100%;
+    height: 100%;
     opacity: 0.1;
-    
-    
+
+
     -webkit-transition: opacity 2s; /* Safari */
     transition: opacity 2s;
 
@@ -110,7 +112,7 @@
                         <label class="col-md-4 control-label" for="url">URL to PDF (base64)</label>
                         <div class="col-md-4">
                             <input id="url" name="url" type="text" placeholder="URL to transform to PDF" class="form-control input-md" value="https://www.google.es">
-                            <span class="help-block" id="baseH"></span>      
+                            <span class="help-block" id="baseH"></span>
                         </div>
                     </div>
                      <!-- Button -->
@@ -120,14 +122,14 @@
                             <button id="generate" name="generate" class="btn btn-primary">Base64</button>
                         </div>
                     </div>
-                    
-                    
+
+
                       <!-- Text input-->
                     <div class="form-group">
                         <label class="col-md-4 control-label" for="url">URL to PDF (share)</label>
                         <div class="col-md-4">
                             <input id="url-share" name="url-share" type="text" placeholder="URL to transform to PDF" class="form-control input-md" value="https://www.google.es">
-                            <span class="help-block" id="baseH"></span>      
+                            <span class="help-block" id="baseH"></span>
                         </div>
                     </div>
                      <!-- Button -->
@@ -137,7 +139,7 @@
                             <button id="share" name="share" class="btn btn-primary">Share</button>
                         </div>
                     </div>
-                    
+
 
 
                     <div class="form-group">
@@ -156,10 +158,10 @@
                                       Hello.....
                                   </p>
                               </body>
-                          </html> 
-                          
+                          </html>
+
                           </textarea>
-                          <span class="help-block" id="rawH"></span>      
+                          <span class="help-block" id="rawH"></span>
                         </div>
                     </div>
 
@@ -173,7 +175,7 @@
 
 
 
-                    <!-- Textarea 
+                    <!-- Textarea
                     <div class="form-group">
                         <label class="col-md-4 control-label" for="html">RAW HTML</label>
                         <div class="col-md-4">
@@ -181,17 +183,13 @@
                         </div>
                     </div>-->
 
-                   
-                    
-                    
+
+
+
                 </fieldset>
             </form>
         </div>
-	   
-        <div id="display" class="full hide">
-            
-            <canvas id="the-canvas" style="border:1px solid black"></canvas>
-        </div>
+
 
     </div>
     <!-- /.container -->

@@ -1,0 +1,10 @@
+{
+    "com.html2pdf.generator": {
+        "source": {
+            "type": "registry",
+            "id": "cordova-pdf-generator"
+        },
+        "is_top_level": true,
+        "variables": {}
+    }
+}
