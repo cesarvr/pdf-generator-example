@@ -7,7 +7,7 @@
         "files": {}
     },
     "installed_plugins": {
-        "com.html2pdf.generator": {
+        "ionic-plugin-keyboard": {
             "PACKAGE_NAME": "com.pdf.test"
         },
         "cordova-plugin-whitelist": {
