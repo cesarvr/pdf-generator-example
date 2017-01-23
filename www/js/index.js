@@ -28,15 +28,27 @@ var HomeView = Backbone.View.extend({
 
     success: function(msg) {
         $('#baseH').html('base64:' + msg);
-        
+
           $.post( "http://localhost:3000/save", { pdfData: msg })
             .done(function( data ) {
                 alert( "Data Loaded: " + data );
             });
+            this.progressHide();
     },
 
     failure: function(err) {
         alert('->', err);
+        this.progressHide();
+    },
+
+    progressShow: function(){
+      if(!_.isEmpty(window.cordova))
+        spinnerplugin.show();
+    },
+
+    progressHide: function(){
+      if(!_.isEmpty(window.cordova))
+        spinnerplugin.hide();
     },
 
     makePDFBase64: function(e) {
@@ -48,6 +60,7 @@ var HomeView = Backbone.View.extend({
             landscape: "portrait",
             type: "base64"
         }, this.success, this.failure);
+        this.progressShow();
     },
 
     makePDFAndShare: function(e) {
@@ -59,6 +72,9 @@ var HomeView = Backbone.View.extend({
             landscape: "portrait",
             type: "share"
         }, this.success, this.failure);
+          this.progressShow();
+
+
     },
 
     makeRawPDFandShare: function(e) {
@@ -69,14 +85,16 @@ var HomeView = Backbone.View.extend({
             documentSize: "A4",
             landscape: "portrait",
             type: "share"
-        }, function(pdf){  $('#rawH').html(pdf);  
-            
+        }, function(pdf){  $('#rawH').html(pdf);
+            this.progressHide();
             $.post( "http://localhost:3000/save", { pdfData: pdf })
             .done(function( data ) {
                 alert( "Data Loaded: " + data );
             });
 
           }, this.failure);
+
+            this.progressShow();
     }
 });
 

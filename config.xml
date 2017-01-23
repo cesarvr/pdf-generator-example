@@ -13,4 +13,5 @@
     <plugin name="ionic-plugin-keyboard" spec="~2.2.1" />
     <plugin name="cordova-plugin-whitelist" spec="~1.3.1" />
     <plugin name="com.html2pdf.generator" spec="~0.9.8" />
+    <plugin name="it.mobimentum.phonegapspinnerplugin" spec="https://github.com/mobimentum/phonegap-plugin-loading-spinner.git" />
 </widget>

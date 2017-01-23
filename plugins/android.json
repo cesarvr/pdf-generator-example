@@ -7,10 +7,13 @@
         "files": {}
     },
     "installed_plugins": {
-        "ionic-plugin-keyboard": {
+        "com.html2pdf.generator": {
             "PACKAGE_NAME": "com.pdf.test"
         },
         "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "com.pdf.test"
+        },
+        "it.mobimentum.phonegapspinnerplugin": {
             "PACKAGE_NAME": "com.pdf.test"
         }
     },
