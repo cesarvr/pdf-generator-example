@@ -33,7 +33,7 @@ function success(msg) {
     progressHide();
 };
 
-function fail(err) {
+function failure(err) {
     console.error('->', err);
     console.alert('An error has ocurred: ', err);
 
