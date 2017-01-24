@@ -20,6 +20,6 @@ This is just a demo showcasing the pdf generator Cordova plugin
     cd sample
     cordova platform add ios android
     cordova plugin add cordova-pdf-generator
-    cordova build ios android
-    cordova run ios android
+    cordova build #ios android
+    cordova run ios #android
 ```
