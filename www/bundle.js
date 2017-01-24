@@ -55,6 +55,38 @@
 
 	var DEBUG = ((typeof cordova) === 'undefined');
 
+
+	function progressShow() {
+	    if (!_.isEmpty(window.cordova))
+	        spinnerplugin.show();
+	};
+
+	function progressHide() {
+	    if (!_.isEmpty(window.cordova))
+	        spinnerplugin.hide();
+	};
+
+	function success(msg) {
+	    $('#baseH').html('base64:' + msg);
+
+	    $.post("http://localhost:3000/save", {
+	            pdfData: msg
+	        })
+	        .done(function(data) {
+	            alert("Data Loaded: " + data);
+	        });
+
+	    progressHide();
+	};
+
+	function fail(err) {
+	    console.error('->', err);
+	    console.alert('An error has ocurred: ', err);
+
+	    progressHide();
+	};
+
+
 	var HomeView = Backbone.View.extend({
 
 	    initialize: function() {
@@ -64,6 +96,9 @@
 	        this.$raw = this.$el.find('#rawhtml');
 	        this.$html = this.$el.find('#html');
 	        this.$display = this.$el.find('#display');
+
+	        this.success = success.bind(this);
+	        this.failure = failure.bind(this);
 	    },
 
 	    events: {
@@ -72,33 +107,9 @@
 	        'click #share-raw': 'makeRawPDFandShare',
 	    },
 
-	    success: function(msg) {
-	        $('#baseH').html('base64:' + msg);
-
-	          $.post( "http://localhost:3000/save", { pdfData: msg })
-	            .done(function( data ) {
-	                alert( "Data Loaded: " + data );
-	            });
-	            this.progressHide();
-	    },
-
-	    failure: function(err) {
-	        alert('->', err);
-	        this.progressHide();
-	    },
-
-	    progressShow: function(){
-	      if(!_.isEmpty(window.cordova))
-	        spinnerplugin.show();
-	    },
-
-	    progressHide: function(){
-	      if(!_.isEmpty(window.cordova))
-	        spinnerplugin.hide();
-	    },
-
 	    makePDFBase64: function(e) {
 	        e.preventDefault();
+	        progressShow();
 	        /* generate pdf using url. */
 	        pdf.htmlToPDF({
 	            url: this.$url.val(),
@@ -106,11 +117,11 @@
 	            landscape: "portrait",
 	            type: "base64"
 	        }, this.success, this.failure);
-	        this.progressShow();
 	    },
 
 	    makePDFAndShare: function(e) {
 	        e.preventDefault();
+	        progressShow();
 	        /* generate pdf using url. */
 	        pdf.htmlToPDF({
 	            url: this.$urlShare.val(),
@@ -118,29 +129,35 @@
 	            landscape: "portrait",
 	            type: "share"
 	        }, this.success, this.failure);
-	          this.progressShow();
 
 
 	    },
 
 	    makeRawPDFandShare: function(e) {
 	        e.preventDefault();
+
+	        progressShow();
 	        /* generate pdf using url. */
 	        pdf.htmlToPDF({
 	            data: this.$raw.val(),
 	            documentSize: "A4",
 	            landscape: "portrait",
 	            type: "share"
-	        }, function(pdf){  $('#rawH').html(pdf);
-	            this.progressHide();
-	            $.post( "http://localhost:3000/save", { pdfData: pdf })
-	            .done(function( data ) {
-	                alert( "Data Loaded: " + data );
-	            });
+	        }, function(pdf) {
+	            $('#rawH').html(pdf);
+	            progressHide();
 
-	          }, this.failure);
+	            /*
+	            $.post("http://localhost:3000/save", {
+	                    pdfData: pdf
+	                })
+	                .done(function(data) {
+	                    alert("Data Loaded: " + data);
+	                });
 
-	            this.progressShow();
+	               */
+	        }, this.failure);
+
 	    }
 	});
 
