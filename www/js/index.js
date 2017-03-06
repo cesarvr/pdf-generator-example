@@ -101,15 +101,6 @@ var HomeView = Backbone.View.extend({
             $('#rawH').html(pdf);
             progressHide();
 
-            /*
-            $.post("http://localhost:3000/save", {
-                    pdfData: pdf
-                })
-                .done(function(data) {
-                    alert("Data Loaded: " + data);
-                });
-
-               */
         }, this.failure);
 
     }
