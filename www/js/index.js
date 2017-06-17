@@ -27,7 +27,8 @@ function progressHide() {
 };
 
 function success(msg) {
-    $('#baseH').html('base64:' + msg);
+  debugger;
+    $('#baseH').html('base64:' + msg.replace('\n',''));
 
     $.post("http://localhost:3000/save", {
             pdfData: msg

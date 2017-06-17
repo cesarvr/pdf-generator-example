@@ -78,6 +78,12 @@
 
 }
 
+.wrap_base64 {
+    height: 20px;
+    overflow-y: auto;
+}
+
+
 </style>
 
 
@@ -112,7 +118,7 @@
                         <label class="col-md-4 control-label" for="url">URL to PDF (base64)</label>
                         <div class="col-md-4">
                             <input id="url" name="url" type="text" placeholder="URL to transform to PDF" class="form-control input-md" value="https://www.google.es">
-                            <span class="help-block" id="baseH"></span>
+                            <span class="help-block wrap_base64" id="baseH"></span>
                         </div>
                     </div>
                      <!-- Button -->
