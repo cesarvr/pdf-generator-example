@@ -11,13 +11,19 @@ var DEBUG = ((typeof cordova) === 'undefined');
 
 
 function progressShow() {
-    if (!_.isEmpty(window.cordova))
-        spinnerplugin.show();
+
+    if (!_.isEmpty(window.cordova)) {
+        SpinnerPlugin.activityStart("Generating PDF...", {
+            dimBackground: true
+        });
+    }
+
 };
 
 function progressHide() {
-    if (!_.isEmpty(window.cordova))
-        spinnerplugin.hide();
+    if (!_.isEmpty(window.cordova)) {
+        SpinnerPlugin.activityStop();
+    }
 };
 
 function success(msg) {
