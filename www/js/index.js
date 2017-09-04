@@ -54,6 +54,8 @@ var HomeView = Backbone.View.extend({
         this.$button = this.$el.find('#generate');
         this.$url = this.$el.find('#url');
         this.$urlShare = this.$el.find('#url-share');
+        this.$internalUrlShare = this.$el.find('#internal-url-share');
+
         this.$raw = this.$el.find('#rawhtml');
         this.$html = this.$el.find('#html');
         this.$display = this.$el.find('#display');
@@ -65,6 +67,7 @@ var HomeView = Backbone.View.extend({
     events: {
         'click #generate': 'makePDFBase64',
         'click #share': 'makePDFAndShare',
+        'click #internal-share': 'internalPDFAndShare',
         'click #share-raw': 'makeRawPDFandShare',
     },
 
@@ -77,6 +80,19 @@ var HomeView = Backbone.View.extend({
             documentSize: "A4",
             landscape: "portrait",
             type: "base64"
+        }, this.success, this.failure);
+    },
+
+    internalPDFAndShare: function(e){
+      debugger;
+         e.preventDefault();
+        progressShow();
+        /* generate pdf using url. */
+        pdf.htmlToPDF({
+            url: this.$internalUrlShare.val(),
+            documentSize: "A4",
+            landscape: "portrait",
+            type: "share"
         }, this.success, this.failure);
     },
 
