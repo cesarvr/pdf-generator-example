@@ -27,15 +27,16 @@ function progressHide() {
 };
 
 function success(msg) {
-  debugger;
-    $('#baseH').html('base64:' + msg.replace('\n',''));
+    debugger;
+    if(!_.isEmpty(msg))
+    $('#baseH').html('base64:' + msg.replace('\n', ''));
 
-    $.post("http://localhost:3000/save", {
-            pdfData: msg
-        })
-        .done(function(data) {
-            alert("Data Loaded: " + data);
-        });
+    // $.post("http://localhost:3000/save", {
+    //         pdfData: msg
+    //     })
+    //     .done(function(data) {
+    //         alert("Data Loaded: " + data);
+    //     });
 
     progressHide();
 };
@@ -83,17 +84,39 @@ var HomeView = Backbone.View.extend({
         }, this.success, this.failure);
     },
 
-    internalPDFAndShare: function(e){
-      debugger;
-         e.preventDefault();
+    internalPDFAndShare: function(e) {
+        debugger;
+        e.preventDefault();
+
         progressShow();
         /* generate pdf using url. */
+
+        if(cordova.platformId === 'ios') {
+            console.log('Testing URL->', url)
+          window.resolveLocalFileSystemURL(cordova.file.applicationDirectory,
+            (url) => {
+              debugger;
+              var file = this.$internalUrlShare.val().replace('file:///android_asset/',url.nativeURL);
+
+              pdf.htmlToPDF({
+                  url: file,
+                  documentSize: "A4",
+                  landscape: "portrait",
+                  type: "share"
+              }, this.success, this.failure);
+            },
+            (err) =>
+            console.log('error', err, '  args ->', arguments)
+          );
+        }else {
+
         pdf.htmlToPDF({
             url: this.$internalUrlShare.val(),
             documentSize: "A4",
             landscape: "portrait",
             type: "share"
         }, this.success, this.failure);
+       }
     },
 
     makePDFAndShare: function(e) {
@@ -115,6 +138,7 @@ var HomeView = Backbone.View.extend({
 
         progressShow();
         /* generate pdf using url. */
+
         pdf.htmlToPDF({
             data: this.$raw.val(),
             documentSize: "A4",
@@ -151,6 +175,8 @@ if (DEBUG) {
     document.addEventListener('deviceready', function() {
 
         console.log('start app..');
+
+
 
         new DemoRouter();
         Backbone.history.start();
