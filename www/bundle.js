@@ -73,7 +73,7 @@
 	};
 
 	function success(msg) {
-	    debugger;
+
 	    if(!_.isEmpty(msg))
 	    $('#baseH').html('base64:' + msg.replace('\n', ''));
 
@@ -131,7 +131,6 @@
 	    },
 
 	    internalPDFAndShare: function(e) {
-	        debugger;
 	        e.preventDefault();
 
 	        progressShow();
@@ -141,7 +140,6 @@
 	            console.log('Testing URL->', url)
 	          window.resolveLocalFileSystemURL(cordova.file.applicationDirectory,
 	            (url) => {
-	              debugger;
 	              var file = this.$internalUrlShare.val().replace('file:///android_asset/',url.nativeURL);
 
 	              pdf.htmlToPDF({
