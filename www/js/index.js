@@ -28,8 +28,8 @@ function progressHide() {
 
 function success(msg) {
 
-    if(!_.isEmpty(msg))
-    $('#baseH').html('base64:' + msg.replace('\n', ''));
+    if (!_.isEmpty(msg))
+        $('#baseH').html('base64:' + msg.replace('\n', ''));
 
     // $.post("http://localhost:3000/save", {
     //         pdfData: msg
@@ -73,15 +73,21 @@ var HomeView = Backbone.View.extend({
     },
 
     makePDFBase64: function(e) {
-        e.preventDefault();
-        progressShow();
-        /* generate pdf using url. */
-        pdf.htmlToPDF({
-            url: this.$url.val(),
+        e.preventDefault()
+        progressShow()
+
+
+
+        var opts = {
             documentSize: "A4",
             landscape: "portrait",
             type: "base64"
-        }, this.success, this.failure);
+        }
+
+        /* generate pdf using url. */
+        pdf.fromURL(this.$url.val(),opts)
+          .then(this.success)
+          .catch(this.failure);
     },
 
     internalPDFAndShare: function(e) {
@@ -90,64 +96,73 @@ var HomeView = Backbone.View.extend({
         progressShow();
         /* generate pdf using url. */
 
-        if(cordova.platformId === 'ios') {
+        if (cordova.platformId === 'ios') {
             console.log('Testing URL->', url)
-          window.resolveLocalFileSystemURL(cordova.file.applicationDirectory,
-            (url) => {
-              var file = this.$internalUrlShare.val().replace('file:///android_asset/',url.nativeURL);
+            window.resolveLocalFileSystemURL(cordova.file.applicationDirectory,
+                (url) => {
+                    var file = this.$internalUrlShare.val().replace('file:///android_asset/', url.nativeURL);
 
-              pdf.htmlToPDF({
-                  url: file,
-                  documentSize: "A4",
-                  landscape: "portrait",
-                  type: "share"
-              }, this.success, this.failure);
-            },
-            (err) =>
-            console.log('error', err, '  args ->', arguments)
-          );
-        }else {
+                    pdf.htmlToPDF({
+                        url: file,
+                        documentSize: "A4",
+                        landscape: "portrait",
+                        type: "share"
+                    }, this.success, this.failure);
+                },
+                (err) =>
+                console.log('error', err, '  args ->', arguments)
+            );
+        } else {
 
-        pdf.htmlToPDF({
-            url: this.$internalUrlShare.val(),
-            documentSize: "A4",
-            landscape: "portrait",
-            type: "share"
-        }, this.success, this.failure);
-       }
+            pdf.htmlToPDF({
+                url: this.$internalUrlShare.val(),
+                documentSize: "A4",
+                landscape: "portrait",
+                type: "share"
+            }, this.success, this.failure);
+        }
     },
 
     makePDFAndShare: function(e) {
         e.preventDefault();
         progressShow();
         /* generate pdf using url. */
-        pdf.htmlToPDF({
-            url: this.$urlShare.val(),
-            documentSize: "A4",
-            landscape: "portrait",
-            type: "share"
-        }, this.success, this.failure);
+
+        debugger
+
+        var opts =   {
+          documentSize: "A4",
+          landscape: "portrait",
+          type: "share",
+          fileName: $('#filename').val() || 'my-pdf.pdf'
+        }
 
 
+        pdf.fromURL(this.$urlShare.val(),
+                      opts)
+                      .then(this.success)
+                      .catch(this.failure);
     },
 
     makeRawPDFandShare: function(e) {
         e.preventDefault();
 
-        progressShow();
+      //progressShow();
         /* generate pdf using url. */
-
-        pdf.htmlToPDF({
-            data: this.$raw.val(),
+        var opts = {
             documentSize: "A4",
             landscape: "portrait",
             type: "share"
-        }, function(pdf) {
-            $('#rawH').html(pdf);
-            progressHide();
+        }
+        
+        var payload = $('#rawhtml').val()
 
-        }, this.failure);
+        console.log('payload->', payload)
 
+        pdf
+        .fromData(payload, opts)
+        .then((pdf)=>{
+        }).catch(this.failure)
     }
 });
 
