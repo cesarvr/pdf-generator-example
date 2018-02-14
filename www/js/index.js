@@ -85,9 +85,9 @@ var HomeView = Backbone.View.extend({
         }
 
         /* generate pdf using url. */
-        pdf.fromURL(this.$url.val(),opts)
-          .then(this.success)
-          .catch(this.failure);
+        pdf.fromURL(this.$url.val(), opts)
+            .then(this.success)
+            .catch(this.failure);
     },
 
     internalPDFAndShare: function(e) {
@@ -99,7 +99,7 @@ var HomeView = Backbone.View.extend({
         if (cordova.platformId === 'ios') {
             console.log('Testing URL->', url)
             window.resolveLocalFileSystemURL(cordova.file.applicationDirectory,
-                (url) => {
+                function(url) {
                     var file = this.$internalUrlShare.val().replace('file:///android_asset/', url.nativeURL);
 
                     pdf.htmlToPDF({
@@ -109,8 +109,9 @@ var HomeView = Backbone.View.extend({
                         type: "share"
                     }, this.success, this.failure);
                 },
-                (err) =>
-                console.log('error', err, '  args ->', arguments)
+                function(err) {
+                    console.log('error', err, '  args ->', arguments)
+                }
             );
         } else {
 
@@ -130,39 +131,38 @@ var HomeView = Backbone.View.extend({
 
         debugger
 
-        var opts =   {
-          documentSize: "A4",
-          landscape: "portrait",
-          type: "share",
-          fileName: $('#filename').val() || 'my-pdf.pdf'
+        var opts = {
+            documentSize: "A4",
+            landscape: "portrait",
+            type: "share",
+            fileName: $('#filename').val() || 'my-pdf.pdf'
         }
 
 
         pdf.fromURL(this.$urlShare.val(),
-                      opts)
-                      .then(this.success)
-                      .catch(this.failure);
+                opts)
+            .then(this.success)
+            .catch(this.failure);
     },
 
     makeRawPDFandShare: function(e) {
         e.preventDefault();
 
-      //progressShow();
+        //progressShow();
         /* generate pdf using url. */
         var opts = {
             documentSize: "A4",
             landscape: "portrait",
             type: "share"
         }
-        
+
         var payload = $('#rawhtml').val()
 
         console.log('payload->', payload)
 
         pdf
-        .fromData(payload, opts)
-        .then((pdf)=>{
-        }).catch(this.failure)
+            .fromData(payload, opts)
+            .then(function(pdf) {}).catch(this.failure)
     }
 });
 
