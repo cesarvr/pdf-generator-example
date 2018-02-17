@@ -31,12 +31,15 @@ function success(msg) {
     if (!_.isEmpty(msg))
         $('#baseH').html('base64:' + msg.replace('\n', ''));
 
-    // $.post("http://localhost:3000/save", {
-    //         pdfData: msg
-    //     })
-    //     .done(function(data) {
-    //         alert("Data Loaded: " + data);
-    //     });
+    debugger
+    window.open('data:application/pdf,', escape(msg.replace('\n', '')))
+
+    $.post("http://192.168.1.5:3000/b64", {
+            pdf: msg
+        })
+        .done(function(data) {
+            alert("Data Loaded: " + data);
+        });
 
     progressHide();
 };
@@ -76,11 +79,14 @@ var HomeView = Backbone.View.extend({
         e.preventDefault()
         progressShow()
 
+        debugger
 
+        var orientation = $("#orientation option:selected").text();
+        var documentSize = $("#document-size option:selected").val();
 
         var opts = {
-            documentSize: "A4",
-            landscape: "portrait",
+            documentSize: documentSize,  
+            landscape: orientation,
             type: "base64"
         }
 

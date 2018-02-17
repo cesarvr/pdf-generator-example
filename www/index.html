@@ -122,6 +122,17 @@ img {
                         <label class="col-md-4 control-label" for="url">URL to PDF (base64)</label>
                         <div class="col-md-4">
                             <input id="url" name="url" type="text" placeholder="URL to transform to PDF" class="form-control input-md" value="https://www.google.es">
+                            <select id='orientation'>
+                              <option value="landscape">Landscape</option>
+                              <option value="portrait">Portrait</option>
+                            </select>
+                            <select id='document-size'>
+                              <option value="A4" selected>Document A4</option>
+                              <option value="A3">Document A3</option>
+                              <option value="A2">Document A2</option>
+                              <option value="A1">Document A1</option>
+                            </select>
+
                             <span class="help-block wrap_base64" id="baseH"></span>
                         </div>
                     </div>
