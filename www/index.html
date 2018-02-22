@@ -167,9 +167,18 @@ img {
                     <div class="form-group">
                         <label class="col-md-4 control-label" for="url">Internal URL</label>
                         <div class="col-md-4">
-                            <input id="internal-url-share" name="url-share" type="text" placeholder="URL to transform to PDF" class="form-control input-md" value="file:///android_asset/www/test.html">
+
+                            <input id="internal-url-share" name="url-share" type="text" placeholder="URL to transform to PDF" class="form-control input-md" value="file:///android_asset/www/crash.html">
                             <span class="help-block" id="baseH"></span>
                         </div>
+                        <div class="col-md-4">
+                            <p>Load Asset With: </p>
+                            <select id='load-with'>
+                              <option value="XHR">Use XHR</option>
+                              <option value="URL">Use URL</option>
+                            </select>
+                            
+                          </div>
                     </div>
                      <!-- Button -->
                     <div class="form-group">

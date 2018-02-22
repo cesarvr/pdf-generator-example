@@ -11910,6 +11910,21 @@ function progressHide() {
     }
 };
 
+
+function loadFile(URL, callback) {
+    debugger
+    if (cordova.platformId === 'ios') {
+        window.resolveLocalFileSystemURL(cordova.file.applicationDirectory,
+            function(url) {
+                var file = URL.replace('file:///android_asset/', url.nativeURL)
+                $.get(file).done(callback)
+            })
+    } else {
+        $.get(URL).done(callback)
+    }
+}
+
+
 function success(msg) {
 
     if (!_.isEmpty(msg))
@@ -11969,15 +11984,23 @@ var HomeView = Backbone.View.extend({
         var documentSize = $("#document-size option:selected").val();
 
         var opts = {
-            documentSize: documentSize,  
+            documentSize: documentSize,
             landscape: orientation,
             type: "base64"
         }
 
-        /* generate pdf using url. */
-        pdf.fromURL(this.$url.val(), opts)
-            .then(this.success)
-            .catch(this.failure);
+
+        if (!_.isUndefined(window.Promise)) {
+
+            /* generate pdf using url. */
+            pdf.fromURL(this.$url.val(), opts)
+                .then(this.success)
+                .catch(this.failure);
+        } else {
+            opts.url = this.$url.val()
+            pdf.htmlToPDF(opts, function(pdf) {}, this.failure)
+        }
+
     },
 
     internalPDFAndShare: function(e) {
@@ -11986,31 +12009,68 @@ var HomeView = Backbone.View.extend({
         progressShow();
         /* generate pdf using url. */
 
-        if (cordova.platformId === 'ios') {
-            console.log('Testing URL->', url)
-            window.resolveLocalFileSystemURL(cordova.file.applicationDirectory,
-                function(url) {
-                    var file = this.$internalUrlShare.val().replace('file:///android_asset/', url.nativeURL);
+        var loadWith = $("#load-with option:selected").val();
 
-                    pdf.htmlToPDF({
-                        url: file,
-                        documentSize: "A4",
-                        landscape: "portrait",
-                        type: "share"
-                    }, this.success, this.failure);
-                },
-                function(err) {
-                    console.log('error', err, '  args ->', arguments)
+        var self = this
+
+        if (loadWith === 'XHR') {
+            loadFile(this.$internalUrlShare.val(), function(payload) {
+                debugger;
+                console.log('resp->', payload)
+
+                var opts = {
+                    documentSize: "A4",
+                    landscape: "portrait",
+                    type: "share"
                 }
-            );
-        } else {
 
-            pdf.htmlToPDF({
-                url: this.$internalUrlShare.val(),
-                documentSize: "A4",
-                landscape: "portrait",
-                type: "share"
-            }, this.success, this.failure);
+                pdf
+                    .fromData(payload, opts)
+                    .then(function(pdf) {
+                        progressHide()
+                    }).catch(this.failure)
+
+            })
+
+
+        }
+
+        if (loadWith === 'URL') {
+
+            if (cordova.platformId === 'ios') {
+                console.log('Testing URL->', url)
+                window.resolveLocalFileSystemURL(cordova.file.applicationDirectory,
+                    function(url) {
+                        var file = this.$internalUrlShare.val().replace('file:///android_asset/', url.nativeURL);
+
+                        var opts = {
+                            documentSize: "A4",
+                            landscape: "portrait",
+                            type: "share",
+                            fileName: 'my-pdf.pdf'
+                        }
+
+                        pdf.fromURL(file,
+                                opts)
+                            .then(this.success)
+                            .catch(this.failure);
+                    },
+                    function(err) {
+                        console.log('error', err, '  args ->', arguments)
+                    }
+                );
+            } else {
+
+
+
+
+                pdf.htmlToPDF({
+                    url: this.$internalUrlShare.val(),
+                    documentSize: "A4",
+                    landscape: "portrait",
+                    type: "share"
+                }, this.success, this.failure);
+            }
         }
     },
 
@@ -12050,9 +12110,15 @@ var HomeView = Backbone.View.extend({
 
         console.log('payload->', payload)
 
-        pdf
-            .fromData(payload, opts)
-            .then(function(pdf) {}).catch(this.failure)
+        if (!_.isUndefined(window.Promise)) {
+
+            pdf
+                .fromData(payload, opts)
+                .then(function(pdf) {}).catch(this.failure)
+        } else {
+            opts.data = payload
+            pdf.htmlToPDF(opts, function(pdf) {}, this.failure)
+        }
     }
 });
 

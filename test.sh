@@ -9,5 +9,6 @@ cordova plugins add ../pdf-generator
 
 #cordova build 
 cordova run android
+#cordova run ios
 
-#nodemon ./sample-server/server.js
+rm ./sample-server/pdf/*.pdf
