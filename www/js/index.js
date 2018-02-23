@@ -78,6 +78,7 @@ var HomeView = Backbone.View.extend({
         this.$raw = this.$el.find('#rawhtml');
         this.$html = this.$el.find('#html');
         this.$display = this.$el.find('#display');
+        this.$modalContent = this.$el.find('.mcontent')
 
         this.success = success.bind(this);
         this.failure = failure.bind(this);
@@ -87,6 +88,7 @@ var HomeView = Backbone.View.extend({
         'click #generate': 'makePDFBase64',
         'click #share': 'makePDFAndShare',
         'click #internal-share': 'internalPDFAndShare',
+        'click #internal-base64': 'internalBase64',
         'click #share-raw': 'makeRawPDFandShare',
     },
 
@@ -117,6 +119,27 @@ var HomeView = Backbone.View.extend({
             pdf.htmlToPDF(opts, function(pdf) {}, this.failure)
         }
 
+    },
+
+
+    internalBase64: function() {
+        var self = this
+        loadFile(this.$internalUrlShare.val(), function(payload) {
+            console.log('resp->', payload)
+            self.$modalContent.text('Wait...  Generating base64 Data...');
+
+            var opts = {
+                documentSize: "A4",
+                landscape: "portrait",
+                type: "base64"
+            }
+
+            pdf
+                .fromData(payload, opts)
+                .then(function(pdf) {
+                    self.$modalContent.text(pdf);
+                }).catch(this.failure)
+        })
     },
 
     internalPDFAndShare: function(e) {
@@ -245,7 +268,7 @@ var DemoRouter = Backbone.Router.extend({
 
     index: function() {
         new HomeView({
-            el: $('.starter-template')
+            el: $('.container')
         });
     }
 });

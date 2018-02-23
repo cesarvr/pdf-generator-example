@@ -108,10 +108,8 @@ img {
 
     <div class="container" style="margin-top: 51px;">
 
-        <div class="starter-template">
             <h1>PDF Generator Cordova Plugin</h1>
             <p class="lead"></p>
-            <form class="form-horizontal">
                 <fieldset>
 
                     <!-- Form Name -->
@@ -177,7 +175,6 @@ img {
                               <option value="XHR">Use XHR</option>
                               <option value="URL">Use URL</option>
                             </select>
-                            
                           </div>
                     </div>
                      <!-- Button -->
@@ -185,13 +182,32 @@ img {
                         <label class="col-md-4 control-label" for="generate">Generate PDF</label>
                         <div class="col-md-4">
                             <button id="internal-share" name="share" class="btn btn-primary">Generate & Share</button>
+                            <button id="internal-base64" class="btn btn-primary" data-toggle="modal" data-target="#b64modal">Get Base64</button>
                         </div>
                     </div>
 
+                    <div class="modal fade" id="b64modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
 
+                         <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h5 class="modal-title">Modal title</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                              </div>
+                              <div class="modal-body" style="overflow: auto;">
+                                <div class="mcontent" style="overflow:auto; weight: 500px">
+                                </div>
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                              </div>
+                            </div>
+                          </div> 
+                        </div>
 
                     <br>
-
 
                     <div class="form-group">
                         <label class="col-md-4 control-label" for="html">RAW HTML</label>
@@ -400,8 +416,6 @@ img {
 
 
                 </fieldset>
-            </form>
-        </div>
 
 
     </div>
