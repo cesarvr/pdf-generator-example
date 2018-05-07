@@ -27,6 +27,23 @@ function progressHide() {
 };
 
 
+function createPDF(cssFile){
+  var opts = {
+      documentSize: "A4",
+      landscape: "portrait",
+      type: "share",
+      fileName: 'my-pdf.pdf'
+  }
+
+  var payload = _.template(' <head><link rel="stylesheet" href="<%=css_file%>"></head><body> <h1> Hello World </h1></body>')
+
+  pdf.fromData(payload({css_file: cssFile}),
+          opts)
+      .then(progressHide)
+      .catch(progressHide);
+}
+
+
 function loadFile(URL, callback) {
     debugger
     if (cordova.platformId === 'ios') {
@@ -76,6 +93,8 @@ var HomeView = Backbone.View.extend({
         this.$internalUrlShare = this.$el.find('#internal-url-share');
 
         this.$raw = this.$el.find('#rawhtml');
+        this.$icss = this.$el.find('#internal-css');
+
         this.$html = this.$el.find('#html');
         this.$display = this.$el.find('#display');
         this.$modalContent = this.$el.find('.mcontent')
@@ -90,6 +109,7 @@ var HomeView = Backbone.View.extend({
         'click #internal-share': 'internalPDFAndShare',
         'click #internal-base64': 'internalBase64',
         'click #share-raw': 'makeRawPDFandShare',
+        'click #icss' : 'makePDFWithInternalCSS'
     },
 
     makePDFBase64: function(e) {
@@ -118,6 +138,32 @@ var HomeView = Backbone.View.extend({
             opts.url = this.$url.val()
             pdf.htmlToPDF(opts, function(pdf) {}, this.failure)
         }
+
+    },
+
+    makePDFWithInternalCSS: function(){
+      debugger
+      var self = this;
+      if (cordova.platformId === 'ios') {
+        window.resolveLocalFileSystemURL(cordova.file.applicationDirectory,
+            function(url) {
+              debugger
+                var file = self.$icss.val().replace('file:///android_asset/', url.nativeURL);
+
+                createPDF(file);
+
+            },
+            function(err) {
+                console.log('error', err, '  args ->', arguments)
+            }
+        );
+      }else{
+        debugger
+        var file = self.$icss.val()
+        createPDF(file);
+
+      }
+
 
     },
 
@@ -180,7 +226,7 @@ var HomeView = Backbone.View.extend({
                 console.log('Testing URL->', url)
                 window.resolveLocalFileSystemURL(cordova.file.applicationDirectory,
                     function(url) {
-                        var file = this.$internalUrlShare.val().replace('file:///android_asset/', url.nativeURL);
+                        var file = self.$internalUrlShare.val().replace('file:///android_asset/', url.nativeURL);
 
                         var opts = {
                             documentSize: "A4",
@@ -191,8 +237,8 @@ var HomeView = Backbone.View.extend({
 
                         pdf.fromURL(file,
                                 opts)
-                            .then(this.success)
-                            .catch(this.failure);
+                            .then(progressHide)
+                            .catch(progressHide);
                     },
                     function(err) {
                         console.log('error', err, '  args ->', arguments)

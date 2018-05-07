@@ -17,7 +17,7 @@
     <plugin name="ionic-plugin-keyboard" spec="^2.2.1" />
     <plugin name="cordova-plugin-spinner" spec="^1.1.0" />
     <plugin name="cordova-plugin-file" spec="^4.3.3" />
-    <plugin name="cordova-pdf-generator" spec="../pdf-generator" />
-    <engine name="android" spec="^6.3.0" />
-    <engine name="ios" spec="^4.5.1" />
+    <plugin name="cordova-pdf-generator" spec="^2.0.1" />
+    <engine name="android" spec="^6.4.0" />
+    <engine name="ios" spec="^4.5.4" />
 </widget>
