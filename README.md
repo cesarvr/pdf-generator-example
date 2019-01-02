@@ -43,7 +43,7 @@ cordova run ios #android
 
 ## Demo
 
-### Android version.
+### Android version.
 ![Android](https://github.com/cesarvr/pdf-generator-example/blob/master/docs/android-demo.gif)
 
 ### IOS Version
