@@ -11,14 +11,15 @@
   "dependencies": {
     "backbone": "^1.3.3",
     "cordova-android": "^6.4.0",
-    "cordova-ios": "^4.5.4",
-    "cordova-pdf-generator": "^2.0.2",
+    "cordova-ios": "^4.5.5",
+    "cordova-pdf-generator": "^2.0.8",
     "cordova-plugin-compat": "^1.2.0",
     "cordova-plugin-file": "^4.3.3",
     "cordova-plugin-spinner": "^1.1.0",
     "cordova-plugin-statusbar": "^2.4.2",
     "cordova-plugin-whitelist": "^1.3.3",
-    "ionic-plugin-keyboard": "^2.2.1"
+    "ionic-plugin-keyboard": "^2.2.1",
+    "pdf-generator": "^1.0.4"
   },
   "cordova": {
     "platforms": [
