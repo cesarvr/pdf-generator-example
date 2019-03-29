@@ -2,3 +2,20 @@ h1 {
   color: red;
   font-size: 60px;
 }
+
+
+/* https://github.com/cesarvr/pdf-generator/issues/96 */
+ul {
+    list-style-type: none;
+}
+
+ul > li::before {
+        /*content: "\2022";*/
+        content:'\2713';
+        color: #0071bc;
+        display: inline-block;
+        font-weight: bold;
+        font-size: 1.5em;
+        padding-right: 7px;
+        margin-left: -1em;
+}

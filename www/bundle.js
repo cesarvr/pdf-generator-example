@@ -12198,7 +12198,7 @@ function createPDF(cssFile){
       fileName: 'my-pdf.pdf'
   }
 
-  var payload = _.template(' <head><link rel="stylesheet" href="<%=css_file%>"></head><body> <h1> Hello World </h1></body>')
+  var payload = _.template('<head><link rel="stylesheet" href="<%=css_file%>"></head><body> <h1> Hello World </h1> <ul> <li>one</li> <li>two</li> <li>three</li> </ul></body>')
 
   pdf.fromData(payload({css_file: cssFile}),
           opts)
