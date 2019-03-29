@@ -12226,22 +12226,20 @@ function success(msg) {
     if (!_.isEmpty(msg))
         $('#baseH').html('base64:' + msg.replace('\n', ''));
 
-    debugger
+    progressHide();
     window.open('data:application/pdf,', escape(msg.replace('\n', '')))
-
+    
     $.post("http://192.168.1.5:3000/b64", {
             pdf: msg
         })
         .done(function(data) {
-            alert("Data Loaded: " + data);
+         //   alert("Data Loaded: " + data);
         });
 
-    progressHide();
 };
 
 function failure(err) {
     console.error('->', err);
-    console.alert('An error has ocurred: ', err);
 
     progressHide();
 };

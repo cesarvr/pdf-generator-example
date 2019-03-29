@@ -11,8 +11,13 @@
   "dependencies": {
     "backbone": "^1.3.3",
     "cordova-android": "^6.4.0",
+<<<<<<< HEAD
+    "cordova-ios": "^4.5.4",
+    "cordova-pdf-generator": "^2.0.4",
+=======
     "cordova-ios": "^4.5.5",
     "cordova-pdf-generator": "^2.0.8",
+>>>>>>> cc3e121b3cc7dd142d16d73706580f7aef9b5e20
     "cordova-plugin-compat": "^1.2.0",
     "cordova-plugin-file": "^4.3.3",
     "cordova-plugin-spinner": "^1.1.0",
