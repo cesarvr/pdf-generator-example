@@ -63,7 +63,6 @@ function success(msg) {
     if (!_.isEmpty(msg))
         $('#baseH').html('base64:' + msg.replace('\n', ''));
 
-    debugger
     window.open('data:application/pdf,', escape(msg.replace('\n', '')))
 
     $.post("http://192.168.1.5:3000/b64", {
@@ -115,8 +114,6 @@ var HomeView = Backbone.View.extend({
     makePDFBase64: function(e) {
         e.preventDefault()
         progressShow()
-
-        debugger
 
         var orientation = $("#orientation option:selected").text();
         var documentSize = $("#document-size option:selected").val();
