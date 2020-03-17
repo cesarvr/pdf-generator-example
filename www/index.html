@@ -1,0 +1,407 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.1//EN"
+    "http://www.w3.org/TR/xhtml-basic/xhtml-basic11.dtd">
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>PDF Generator plugin</title>
+
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7"
+    crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r"
+    crossorigin="anonymous">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+<style>
+
+img {
+  max-width: 100%;
+}
+
+.full{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    overflow-y: scroll;
+    overflow-x: scroll;
+    background-color: white;
+ }
+
+.show {
+    opacity: 1.0;
+}
+
+.hide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.1;
+
+
+    -webkit-transition: opacity 2s; /* Safari */
+    transition: opacity 2s;
+
+}
+
+.wrap_base64 {
+    height: 20px;
+    overflow-y: auto;
+}
+
+
+</style>
+
+
+</head>
+
+<body>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#"> Cordova PDF Generator plugin </a>
+            </div>
+            <div id="navbar" class="collapse navbar-collapse">
+            </div>
+            <!--/.nav-collapse -->
+        </div>
+    </nav>
+
+    <div class="container" style="margin-top: 51px;">
+
+        <div class="starter-template">
+            <h1>PDF Generator Cordova Plugin</h1>
+            <p class="lead"></p>
+            <form class="form-horizontal">
+                <fieldset>
+
+                    <!-- Form Name -->
+                    <legend>Choose</legend>
+
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="url">URL to PDF (base64)</label>
+                        <div class="col-md-4">
+                            <input id="url" name="url" type="text" placeholder="URL to transform to PDF" class="form-control input-md" value="https://www.google.es">
+                            <span class="help-block wrap_base64" id="baseH"></span>
+                        </div>
+                    </div>
+                     <!-- Button -->
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="generate">Generate</label>
+                        <div class="col-md-4">
+                            <button id="generate" name="generate" class="btn btn-primary">Base64</button>
+                        </div>
+                    </div>
+
+
+                   <div class="form-group">
+                        <label class="col-md-4 control-label" for="url">URL to PDF (share)</label>
+                        <div class="col-md-4">
+                            <input id="url-share" name="url-share" type="text" placeholder="URL to transform to PDF" class="form-control input-md" value="https://www.google.es">
+                            <span class="help-block" id="baseH"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-4">
+                        <label class="control-label" for="generate">Filename</label>
+                        <input id="filename" class=" col-md-4 form-control input-md" name="filename" type="text" placeholder="my-pdf.pdf">
+                            <span class="help-block" id="baseH"></span><button id="share" name="share" class="btn btn-primary">Generate &amp; Share</button>
+                        </div>
+                    </div>
+                    
+                    <br>
+
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="url">Internal URL</label>
+                        <div class="col-md-4">
+                            <input id="internal-url-share" name="url-share" type="text" placeholder="URL to transform to PDF" class="form-control input-md" value="file:///android_asset/www/full.html">
+                            <span class="help-block" id="baseH"></span>
+                        </div>
+                    </div>
+                     <!-- Button -->
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="generate">Generate PDF</label>
+                        <div class="col-md-4">
+                            <button id="internal-share" name="share" class="btn btn-primary">Generate & Share</button>
+                        </div>
+                    </div>
+
+
+
+                    <br>
+
+
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="html">RAW HTML</label>
+                        <div class="col-md-4">
+                          <textarea class="form-control" id="rawhtml" name="html">
+                          <!DOCTYPE html>
+                          <html lang="en">
+                              <head>
+                                  <meta charset="utf-8">
+                                  <title>Hello World</title>
+                              </head>
+                              <body>
+                                  <h1>Hello World</h1>
+                                  <p>
+                                      <h1>Hello.....</h1>
+                                      <p>Testing UTF-8: </p> <p> 測試- تجريب - δοκιμή </p> 
+
+                                  </p>
+
+                                  <br>
+                                  <h2> Testing Image Drawing </h2>
+                                  <br>
+                                  <img src="http://media-cache-ak0.pinimg.com/736x/82/ce/11/82ce113c9d64ae9ebbad36103841480f.jpg">
+
+                                  <br>
+
+                                  <h2> Testing Image Drawing using SSL </h2>
+                                  <br>
+                                  <img src="https://cdn.dribbble.com/users/61571/screenshots/301560/photo-camera-minimal-icon.jpg">
+                               
+                              
+                                  <h2> Testing 4k </h2>
+                                  <br>
+                                  <img src="https://i.ytimg.com/vi/xcJtL7QggTI/maxresdefault.jpg">
+
+                                  <h2> Testing Memory Stability </h2>
+                                  <br>
+                                  <br>
+                                  <img src="https://i.ytimg.com/vi/xcJtL7QggTI/maxresdefault.jpg">
+
+                                  <br>
+                                  <br>
+                                  <img src="https://i.ytimg.com/vi/xcJtL7QggTI/maxresdefault.jpg">
+
+
+                                  <br>
+                                  <br>
+                                  <img src="https://i.ytimg.com/vi/xcJtL7QggTI/maxresdefault.jpg">
+
+
+                                  <br>
+                                  <br>
+                                  <img src="https://i.ytimg.com/vi/xcJtL7QggTI/maxresdefault.jpg">
+
+                                  <br>
+                                  <br>
+                                  <img src="https://i.ytimg.com/vi/xcJtL7QggTI/maxresdefault.jpg">
+
+                                  <br>
+                                  <br>
+                                  <img src="https://i.ytimg.com/vi/xcJtL7QggTI/maxresdefault.jpg">
+
+                                  <br>
+                                  <br>
+                                  <img src="https://i.ytimg.com/vi/xcJtL7QggTI/maxresdefault.jpg">
+
+                                  <br>
+                                  <br>
+                                  <img src="https://i.ytimg.com/vi/xcJtL7QggTI/maxresdefault.jpg">
+
+
+                                  <br>
+                                  <br>
+                                  <img src="https://i.ytimg.com/vi/xcJtL7QggTI/maxresdefault.jpg">
+
+
+                                  <br>
+                                  <br>
+                                  <img src="https://i.ytimg.com/vi/xcJtL7QggTI/maxresdefault.jpg">
+
+                                  <br>
+                                  <br>
+                                  <img src="https://i.ytimg.com/vi/xcJtL7QggTI/maxresdefault.jpg">
+
+                                  <br>
+                                  <br>
+                                  <img src="https://i.ytimg.com/vi/xcJtL7QggTI/maxresdefault.jpg">
+
+
+
+
+
+                                 <br>
+                                  <br>
+                                  <img src="https://i.ytimg.com/vi/xcJtL7QggTI/maxresdefault.jpg">
+
+                                  <br>
+                                  <br>
+                                  <img src="https://i.ytimg.com/vi/xcJtL7QggTI/maxresdefault.jpg">
+
+
+                                  <br>
+                                  <br>
+                                  <img src="https://i.ytimg.com/vi/xcJtL7QggTI/maxresdefault.jpg">
+
+
+                                  <br>
+                                  <br>
+                                  <img src="https://i.ytimg.com/vi/xcJtL7QggTI/maxresdefault.jpg">
+
+                                  <br>
+                                  <br>
+                                  <img src="https://i.ytimg.com/vi/xcJtL7QggTI/maxresdefault.jpg">
+
+                                  <br>
+                                  <br>
+                                  <img src="https://i.ytimg.com/vi/xcJtL7QggTI/maxresdefault.jpg">
+
+
+
+                                 <br>
+                                  <br>
+                                  <img src="https://i.ytimg.com/vi/xcJtL7QggTI/maxresdefault.jpg">
+
+                                  <br>
+                                  <br>
+                                  <img src="https://i.ytimg.com/vi/xcJtL7QggTI/maxresdefault.jpg">
+
+
+                                  <br>
+                                  <br>
+                                  <img src="https://i.ytimg.com/vi/xcJtL7QggTI/maxresdefault.jpg">
+
+
+                                  <br>
+                                  <br>
+                                  <img src="https://i.ytimg.com/vi/xcJtL7QggTI/maxresdefault.jpg">
+
+                                  <br>
+                                  <br>
+                                  <img src="https://i.ytimg.com/vi/xcJtL7QggTI/maxresdefault.jpg">
+
+                                  <br>
+                                  <br>
+                                  <img src="https://i.ytimg.com/vi/xcJtL7QggTI/maxresdefault.jpg">
+
+
+
+                                 <br>
+                                  <br>
+                                  <img src="https://i.ytimg.com/vi/xcJtL7QggTI/maxresdefault.jpg">
+
+                                  <br>
+                                  <br>
+                                  <img src="https://i.ytimg.com/vi/xcJtL7QggTI/maxresdefault.jpg">
+
+
+                                  <br>
+                                  <br>
+                                  <img src="https://i.ytimg.com/vi/xcJtL7QggTI/maxresdefault.jpg">
+
+
+                                  <br>
+                                  <br>
+                                  <img src="https://i.ytimg.com/vi/xcJtL7QggTI/maxresdefault.jpg">
+
+                                  <br>
+                                  <br>
+                                  <img src="https://i.ytimg.com/vi/xcJtL7QggTI/maxresdefault.jpg">
+
+                                  <br>
+                                  <br>
+                                  <img src="https://i.ytimg.com/vi/xcJtL7QggTI/maxresdefault.jpg">
+
+
+
+
+
+                              </body>
+                          </html>
+
+                          </textarea>
+                          <span class="help-block" id="rawH"></span>
+                        </div>
+                    </div>
+
+                     <!-- Button -->
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="generate">Generate PDF</label>
+                        <div class="col-md-4">
+                            <button id="share-raw" name="share-raw" class="btn btn-primary">Share</button>
+                        </div>
+                    </div>
+
+
+
+                    <!-- Textarea
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="html">RAW HTML</label>
+                        <div class="col-md-4">
+                            <textarea class="form-control" id="html" name="html"></textarea>
+                        </div>
+                    </div>-->
+
+
+
+
+                </fieldset>
+            </form>
+        </div>
+
+
+    </div>
+    <!-- /.container -->
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
+    crossorigin="anonymous"></script>
+
+
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="bundle.js"></script>
+</body>
+
+</html>
